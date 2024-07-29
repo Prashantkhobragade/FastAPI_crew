@@ -6,6 +6,8 @@ from langchain_groq import ChatGroq
 import requests
 import json
 
+from tools.tools import *
+
 
 load_dotenv()
 
@@ -31,7 +33,7 @@ data_manager_agent = Agent(
     role="Data Manager",
     goal="save {data} through API interactions by hitting correct endpoint",
     backstory="An efficient data manager responsible for saving {data} in FAST API.",
-    #tools=[requests],
+    tools=[save_item],
     llm = llm,
     allow_delegation = False,
     verbose=True
