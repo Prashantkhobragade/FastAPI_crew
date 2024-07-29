@@ -39,6 +39,15 @@ data_manager_agent = Agent(
     verbose=True
 )
 
+data_retrival_agent = Agent(
+    role = "Data Retrival",
+    goal = "Retrive the data based on the given {item_number}",
+    backstory = "you are expert in retriving data from the API ",
+    tools = [get_by_item_number],
+    llm = llm,
+    allow_delegation = False,
+    verbose = True
+)
 
 
 
@@ -50,27 +59,49 @@ data_manager_task = Task(
     agent=data_manager_agent
 )
 
-
-
-#crew
-crew  = Crew(
-    agents=[data_manager_agent],
-    tasks=[data_manager_task],
-    #process = Process.sequential,
-    verbose=True
+data_retrival_task = Task(
+    description = "retrive data from the API when {item_number} is given"
+    expected_output = "dict containing all the details related to {item__number}"
+    agent = data_retrival_agent
 )
 
-user_input = input("Enter data: ")
+def data_storing():
+    #crew for data store
+    crew_data  = Crew(
+        agents=[data_manager_agent],
+        tasks=[data_manager_task],
+        #process = Process.sequential,
+        verbose=True
+    )
+    user_input = input("Enter data: ")
 
-data = None
+    data = None
     
-try:
-    data = json.loads(user_input)
-    print("Received valid JSON data:", data)
-except json.JSONDecodeError:
-    print("Invalid JSON data. Please try again.")
+    try:
+        data = json.loads(user_input)
+        print("Received valid JSON data:", data)
+    except json.JSONDecodeError:
+        print("Invalid JSON data. Please try again.")
 
-if data is not None:
-    result = crew.kickoff(inputs = {"data": data})
+    if data is not None:
+        result_data_addition = crew_data.kickoff(inputs = {"data": data})
+    else:
+        print("No valid data")
+
+#crew for data retrival
+crew_retrival = Crew(
+    agents = [data_retrival_agent],
+    tasks = [data_retrival_task],
+    verbose = True
+)
+
+
+
+
+
+
+item_number = int(input("enter item_number: "))
+if item_number is not None:
+    result_data_retrival = crew_retrival.kickoff(inputs = {"item_number":item_number})
 else:
-    print("No valid data")
+    print("provide valid item_number")
