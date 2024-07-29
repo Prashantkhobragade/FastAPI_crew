@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict
 
 app = FastAPI()
 
@@ -8,21 +8,23 @@ app = FastAPI()
 class Item(BaseModel):
     item_number: int
     item_name: str
-    value: float
+    value: int
 
-# In-memory storage
+# In-memory storage using a dictionary for faster lookup
 items = []
+
+@app.get("/items/", response_model=List[Item])
+async def read_items():
+    return items
+
 
 @app.post("/items/")
 async def create_item(item: Item):
     items.append(item)
     return {"message": "Item created successfully"}
 
-@app.get("/items/", response_model=List[Item])
-async def read_items():
-    return items
 
-@app.get("/items/", response_model=Item)
+@app.get("/items/{item_number}", response_model=Item)
 async def read_item_by_item_number(item_number: int):
     for item in items:
         if item.item_number == item_number:
