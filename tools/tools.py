@@ -21,3 +21,23 @@ def save_item(item_number:int, item_name:str, value:int)-> dict:
     data = {"item_number": item_number, "item_name": item_name, "value": value}
     response = requests.post(url, json=data)
     return response.json()
+
+
+@tool(get_by_item_number)
+def get_by_item_number(item_number:str) -> dict:
+    """
+    Retrieve item details from the API based on the item number.
+
+    Args:
+        item_number (str): The item number of the desired item.
+
+    Returns:
+        dict: The JSON response containing the item's details.
+
+    Raises:
+        requests.exceptions.RequestException: If there is an issue with the request (e.g., network problems, invalid URL).
+        ValueError: If the response contains invalid JSON or the item is not found.
+    """
+    url = f"{BASE_URL}/items/{item_number}"
+    response = requests.get(url)
+    return response.json()

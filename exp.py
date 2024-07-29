@@ -22,10 +22,10 @@ def save_item(item_number:int, item_name:str, value:float):
 result = save_item(item_number=111, item_name="fgbcvgf", value=898)
 print(result)"""
 
-def get_by_item_number():
-    url = f"{BASE_URL}/items/"
+def get_by_item_number(item_number:str):
+    url = f"{BASE_URL}/items/{item_number}"
     response = requests.get(url)
     return response.json()
 
-result = get_by_item_number()
+result = get_by_item_number(111)
 print(result)
