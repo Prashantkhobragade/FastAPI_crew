@@ -60,12 +60,12 @@ data_manager_task = Task(
 )
 
 data_retrival_task = Task(
-    description = "retrive data from the API when {item_number} is given"
-    expected_output = "dict containing all the details related to {item__number}"
+    description = "retrive data from the API when {item_number} is given",
+    expected_output = "dict containing all the details related to {item_number}",
     agent = data_retrival_agent
 )
 
-def data_storing():
+def add_data():
     #crew for data store
     crew_data  = Crew(
         agents=[data_manager_agent],
@@ -88,20 +88,25 @@ def data_storing():
     else:
         print("No valid data")
 
+
+def data_retrival():
 #crew for data retrival
-crew_retrival = Crew(
-    agents = [data_retrival_agent],
-    tasks = [data_retrival_task],
-    verbose = True
-)
+    crew_retrival = Crew(
+        agents = [data_retrival_agent],
+        tasks = [data_retrival_task],
+        verbose = True
+    )
+
+    item_number = int(input("enter item_number: "))
+    if item_number is not None:
+        result_data_retrival = crew_retrival.kickoff(inputs = {"item_number":item_number})
+    else:
+        print("provide valid item_number")
 
 
+if __name__ == "__main__":
+    #for adding ddata
+    #data_add = add_data()
 
-
-
-
-item_number = int(input("enter item_number: "))
-if item_number is not None:
-    result_data_retrival = crew_retrival.kickoff(inputs = {"item_number":item_number})
-else:
-    print("provide valid item_number")
+    #for data retrival
+    retrival = data_retrival()

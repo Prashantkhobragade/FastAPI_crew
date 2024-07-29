@@ -23,7 +23,7 @@ def save_item(item_number:int, item_name:str, value:int)-> dict:
     return response.json()
 
 
-@tool(get_by_item_number)
+@tool("get item by item number")
 def get_by_item_number(item_number:str) -> dict:
     """
     Retrieve item details from the API based on the item number.
