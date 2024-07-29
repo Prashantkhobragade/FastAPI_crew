@@ -12,7 +12,7 @@ except json.JSONDecodeError:
 import requests
 
 BASE_URL = "http://localhost:8000"
-
+"""
 def save_item(item_number:int, item_name:str, value:float):
     url = f"{BASE_URL}/items/"
     data = {"item_number": item_number, "item_name": item_name, "value": value}
@@ -20,4 +20,12 @@ def save_item(item_number:int, item_name:str, value:float):
     return response.json()
 
 result = save_item(item_number=111, item_name="fgbcvgf", value=898)
+print(result)"""
+
+def get_by_item_number():
+    url = f"{BASE_URL}/items/"
+    response = requests.get(url)
+    return response.json()
+
+result = get_by_item_number()
 print(result)

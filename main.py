@@ -6,7 +6,7 @@ from langchain_groq import ChatGroq
 import requests
 import json
 
-from tools.tools import *
+from tools.tools import save_item
 
 
 load_dotenv()
@@ -40,6 +40,9 @@ data_manager_agent = Agent(
 )
 
 
+
+
+
 #Task
 data_manager_task = Task(
     description='add given json {data} by hitting correct endpoints',
@@ -58,6 +61,8 @@ crew  = Crew(
 )
 
 user_input = input("Enter data: ")
+
+data = None
     
 try:
     data = json.loads(user_input)
@@ -65,5 +70,7 @@ try:
 except json.JSONDecodeError:
     print("Invalid JSON data. Please try again.")
 
-
-result = crew.kickoff(inputs = {"data": data})
+if data is not None:
+    result = crew.kickoff(inputs = {"data": data})
+else:
+    print("No valid data")
