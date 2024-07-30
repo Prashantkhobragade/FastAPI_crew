@@ -27,11 +27,29 @@ def get_by_item_number(item_number:str):
     response = requests.get(url)
     return response.json()
 
-result = get_by_item_number(111)
-print(result)
+#result = get_by_item_number(111)
+#print(result)
 """
 "Efficiently manage data by saving {data} through API interactions with appropriate endpoints.",
 "A meticulous data manager skilled in handling data storage using FAST API. Responsible for ensuring accurate and efficient data transactions.",
 item_number = int(input("enter item_number: "))
 print(item_number)
 print(type(item_number))"""
+"""
+def delete_item(item_number):
+    url = f"{BASE_URL}/items/{item_number}"
+    response = requests.delete(url)
+    return response.json()
+"""
+def delete_item(item_number):
+    url = f"{BASE_URL}/items/{item_number}"
+    response = requests.delete(url)
+    
+    if response.status_code == 404:
+        return {"message": "Item not found"}
+    elif response.status_code == 200:
+        return response.json()
+    else:
+        return {"message": "An error occurred", "status_code": response.status_code}
+
+print(delete_item(11))
