@@ -29,6 +29,9 @@ def get_by_item_number(item_number:str):
 
 result = get_by_item_number(111)
 print(result)
-
+"""
 "Efficiently manage data by saving {data} through API interactions with appropriate endpoints.",
 "A meticulous data manager skilled in handling data storage using FAST API. Responsible for ensuring accurate and efficient data transactions.",
+item_number = int(input("enter item_number: "))
+print(item_number)
+print(type(item_number))"""

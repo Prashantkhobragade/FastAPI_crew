@@ -42,7 +42,7 @@ data_retrival_agent = Agent(
 #task
 data_retrival_task = Task(
     description = "Retrieve detailed data from the API using the provided {item_number}.",
-    expected_output = "A dictionary containing all relevant details associated with {item_number}, including any metadata or additional information.",
+    expected_output = "A dict containing all relevant details associated with {item_number}",
     agent = data_retrival_agent
 )
 
