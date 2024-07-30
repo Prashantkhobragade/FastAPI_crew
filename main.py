@@ -21,7 +21,7 @@ except:
 
 # llm
 llm = ChatGroq(
-    model = "llama-3.1-8b-instant",
+    model = "llama3-groq-8b-8192-tool-use-preview",
     temperature = 0.0,
     api_key = GROQ_API_KEY
 )
@@ -31,10 +31,13 @@ BASE_URL = "http://localhost:8000"
 #Agent
 data_manager_agent = Agent(
     role="Data Manager",
-    goal="save {data} through API interactions by hitting correct endpoint",
-    backstory="An efficient data manager responsible for saving {data} in FAST API.",
+    goal="Efficiently manage data by saving {data} through API interactions with appropriate endpoints.",
+    backstory = "A meticulous data manager skilled in handling data storage using FAST API. Responsible for ensuring accurate and efficient data transactions.",
     tools=[save_item],
     llm = llm,
+    max_iter=15,  # Optional
+    max_rpm=2, # Optional
+    #max_execution_time=, # Optional
     allow_delegation = False,
     verbose=True
 )
@@ -45,6 +48,8 @@ data_retrival_agent = Agent(
     backstory = "you are expert in retriving data from the API ",
     tools = [get_by_item_number],
     llm = llm,
+    max_iter=15,  # Optional
+    max_rpm=2,  #optional
     allow_delegation = False,
     verbose = True
 )
@@ -54,8 +59,8 @@ data_retrival_agent = Agent(
 
 #Task
 data_manager_task = Task(
-    description='add given json {data} by hitting correct endpoints',
-    expected_output='return saved data in Json format',
+    description='Manage given JSON {data} by saving it through the correct API endpoints and ensuring its accurate storage.',
+    expected_output='Return confirmation of saved data, and if requested, retrieve and return the stored data in JSON format.',
     agent=data_manager_agent
 )
 
@@ -106,7 +111,7 @@ def data_retrival():
 
 if __name__ == "__main__":
     #for adding ddata
-    #data_add = add_data()
+    data_add = add_data()
 
     #for data retrival
-    retrival = data_retrival()
+    #retrival = data_retrival()
