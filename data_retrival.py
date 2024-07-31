@@ -29,8 +29,8 @@ llm = ChatGroq(
 #Agent
 data_retrival_agent = Agent(
     role = "Data Retrival",
-    goal = "Retrive the data based on the given {item_number}",
-    backstory = "you are expert in retriving data from the API ",
+    goal = "Retrieve the data from FAST API based on the given {item_number}",
+    backstory = "you are expert in retrieving data from the API ",
     tools = [get_by_item_number],
     llm = llm,
     #max_iter=15,  # Optional
@@ -41,7 +41,7 @@ data_retrival_agent = Agent(
 
 #task
 data_retrival_task = Task(
-    description = "retrive data from the API when {item_number} is given",
+    description = "retrieve data from the API when item_number {item_number} is given",
     expected_output = "dict containing all the details related to {item_number}",
     agent = data_retrival_agent
 )
