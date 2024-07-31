@@ -29,7 +29,7 @@ llm = ChatGroq(
 #Agent
 data_retrival_agent = Agent(
     role = "Data Retrival",
-    goal = "Retrieve the data from FAST API based on the given {item_number}",
+    goal = "Retrieve the data from FAST API based on the given {item_number}, if {item_number} not available return No Item Found.",
     backstory = "you are expert in retrieving data from the API ",
     tools = [get_by_item_number],
     llm = llm,
